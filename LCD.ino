@@ -7,15 +7,56 @@ LiquidCrystal_I2C lcd_i2c(0x27, 16, 2);
 
 // Function to display messages on OLED for belle
 void belle_show(int state) {
-  lcd_i2c.clear();
-  lcd_i2c.setCursor(0, 0);
+  if (state != 12){
+    lcd_i2c.clear();
+    lcd_i2c.setCursor(0, 0);
+  }
 
   if (state == 1) {
-    lcd_i2c.print("belle 1");
+    lcd_i2c.setCursor(4, 0);
+    lcd_i2c.print("Register");
   } else if (state == 2) {
-    lcd_i2c.print("belle 2");
+    lcd_i2c.setCursor(1, 0);
+    lcd_i2c.print("Create Password");
   } else if (state == 3) {
-    lcd_i2c.print("belle 3");
+    lcd_i2c.setCursor(4, 0);
+    lcd_i2c.print("Register");
+    lcd_i2c.setCursor(4, 1);
+    lcd_i2c.print("Complete");
+  } else if (state == 4) {
+    lcd_i2c.setCursor(2, 0);
+    lcd_i2c.print("Forget Card");
+  } else if (state == 5) {
+    lcd_i2c.setCursor(5, 0);
+    lcd_i2c.print("Success");
+  } else if (state == 6) {
+    lcd_i2c.setCursor(1, 0);
+    lcd_i2c.print("Reset Complete");
+  } else if (state == 7) {
+    lcd_i2c.setCursor(1, 0);
+    lcd_i2c.print("Confirm reset");
+    lcd_i2c.setCursor(0, 1);
+    lcd_i2c.print("# Reset,* Cancel");
+  } else if (state == 8) {
+    lcd_i2c.setCursor(5, 0);
+    lcd_i2c.print("Reset");
+  } else if (state == 9) {
+    lcd_i2c.setCursor(2, 0);
+    lcd_i2c.print("Cancel Reset");
+  } else if (state == 10) {
+    lcd_i2c.setCursor(0, 0);
+    lcd_i2c.print("Clear Password");
+  } else if (state == 11) {
+    lcd_i2c.setCursor(4, 0);
+    lcd_i2c.print("Password");
+    lcd_i2c.setCursor(2, 1);
+    lcd_i2c.print("Incorrect");
+    delay(2000); 
+    lcd_i2c.setCursor(0, 0);
+    lcd_i2c.print("Please try again");
+  } else if (state == 12) {
+    lcd_i2c.setCursor(0, 1);
+    lcd_i2c.print("Enter Password");
   }
 }
 
@@ -116,9 +157,9 @@ void loop()
 //  Serial.printf("---------------------------------\n");
 //  Serial.println();
 //  delay(1000);
-  belle_show(1);
-  delay(2000);                  // display the above for two seconds
-
-  ta_show(2);
-  delay(2000);                      // display the above for two seconds
+//  belle_show(1);
+//  delay(2000);                  // display the above for two seconds
+//
+//  ta_show(2);
+//  delay(2000);                      // display the above for two seconds
 }
