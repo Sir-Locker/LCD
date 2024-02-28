@@ -71,7 +71,20 @@ void ta_show(int state) {
   } else if (state == 1) {
     lcd_i2c.setCursor(1, 0);
     lcd_i2c.print("You Not Owner");
+  } else if (state == 5) {
+    lcd_i2c.setCursor(0, 0);
+    lcd_i2c.print("Please Tap Card");
+  } else if (state == 6) {
+    lcd_i2c.setCursor(2, 0);
+    lcd_i2c.print("Please Reset");
+  } else if (state == 7) {
+    lcd_i2c.setCursor(5, 0);
+    lcd_i2c.print("Success");
+  } else if (state == 8) {
+    lcd_i2c.setCursor(3, 0);
+    lcd_i2c.print("Wrong Card");
   }
+  
 }
 
 bool compareMac(const uint8_t * a,const uint8_t * b){
@@ -84,7 +97,7 @@ bool compareMac(const uint8_t * a,const uint8_t * b){
 
 // REPLACE WITH YOUR ESP RECEIVER'S MAC ADDRESS
 uint8_t belleAddress[] = {0x3C, 0x61, 0x05, 0x03, 0xCA, 0x04};
-uint8_t taAddress[] = {0xE8, 0xDB, 0x84, 0x01, 0x07, 0x90};
+uint8_t taAddress[] = {0xE8, 0x68, 0xE7, 0x23, 0x82, 0x1C};
 
 // ta struct
  typedef struct send_oled{
