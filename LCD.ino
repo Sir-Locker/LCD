@@ -65,12 +65,12 @@ void ta_show(int state) {
   lcd_i2c.clear();
   lcd_i2c.setCursor(0, 0);
 
-  if (state == 1) {
-    lcd_i2c.print("ta 1");
-  } else if (state == 2) {
-    lcd_i2c.print("ta 2");
-  } else if (state == 3) {
-    lcd_i2c.print("ta 3");
+  if (state == 0) {
+    lcd_i2c.setCursor(0, 0);
+    lcd_i2c.print("Please Register");
+  } else if (state == 1) {
+    lcd_i2c.setCursor(1, 0);
+    lcd_i2c.print("You Not Owner");
   }
 }
 
@@ -87,12 +87,12 @@ uint8_t belleAddress[] = {0x3C, 0x61, 0x05, 0x03, 0xCA, 0x04};
 uint8_t taAddress[] = {0xE8, 0xDB, 0x84, 0x01, 0x07, 0x90};
 
 // ta struct
-typedef struct oled_send {
-  int oledState;
-} oled_send;
+ typedef struct send_oled{
+  int statuss;
+}send_oled;
 
-oled_send taData;
-oled_send taBoard;
+send_oled taData;
+send_oled taBoard;
 
 // belle struct
 typedef struct keypad_oled{
@@ -112,11 +112,11 @@ void OnDataRecv(const uint8_t * mac_addr, const uint8_t *incomingData, int len) 
   if(compareMac(mac_addr,taAddress)){
     memcpy(&taData, incomingData, sizeof(taData));
     Serial.printf("--------From Ta : สแกน---------\n");
-    taBoard.oledState = taData.oledState;
-    printf("%d\n", taBoard.oledState);
+    taBoard.statuss = taData.statuss;
+    printf("%d\n", taBoard.statuss);
     Serial.printf("---------------------------------\n");
     Serial.println();
-    ta_show(taBoard.oledState); 
+    ta_show(taBoard.statuss); 
   }
   if(compareMac(mac_addr,belleAddress)){
     memcpy(&belleData, incomingData, sizeof(belleData));
@@ -134,6 +134,11 @@ void setup()
 {
   lcd_i2c.init(); // initialize the lcd
   lcd_i2c.backlight();
+  lcd_i2c.clear();
+  lcd_i2c.setCursor(3, 0);
+  lcd_i2c.print("Welcome to");
+  lcd_i2c.setCursor(3, 1);
+  lcd_i2c.print("Sir-Locker");
   Serial.begin(115200);
   WiFi.mode(WIFI_STA);
  
@@ -150,7 +155,7 @@ void setup()
 void loop()
 {
 //  Serial.printf("-----------Print Oled-----------\n");
-//  String recv_taBoard = taBoard.oledState;
+//  String recv_taBoard = taBoard.statuss;
 //  printf("taBoard: %d\n", recv_taBoard);
 //  String recv_belleBoard = belleBoard.text;
 //  printf("belleBoard: %d\n", recv_belleBoard);
