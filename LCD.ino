@@ -87,6 +87,17 @@ void ta_show(int state) {
   
 }
 
+// Function to display messages on OLED for chun
+void chun_show(int state) {
+  lcd_i2c.clear();
+  lcd_i2c.setCursor(0, 0);
+
+  if (state == 1) {
+    lcd_i2c.setCursor(1, 0);
+    lcd_i2c.print("Lock Complete");
+  }
+}
+
 bool compareMac(const uint8_t * a,const uint8_t * b){
   for(int i=0;i<6;i++){
     if(a[i]!=b[i])
@@ -98,6 +109,7 @@ bool compareMac(const uint8_t * a,const uint8_t * b){
 // REPLACE WITH YOUR ESP RECEIVER'S MAC ADDRESS
 uint8_t belleAddress[] = {0x3C, 0x61, 0x05, 0x03, 0xCA, 0x04};
 uint8_t taAddress[] = {0xE8, 0x68, 0xE7, 0x23, 0x82, 0x1C};
+uint8_t chunAddress[] = {0x24, 0x6F, 0x28, 0x28, 0x17, 0x1C};
 
 // ta struct
  typedef struct send_oled{
@@ -114,6 +126,14 @@ typedef struct keypad_oled{
 
 keypad_oled belleData;
 keypad_oled belleBoard;
+
+// chun struct
+typedef struct servo_oled{
+  int show_servo;
+}servo_oled;
+
+servo_oled chunData;
+servo_oled chunBoard;
 
 // callback function that will be executed when data is received
 void OnDataRecv(const uint8_t * mac_addr, const uint8_t *incomingData, int len) {
@@ -139,6 +159,15 @@ void OnDataRecv(const uint8_t * mac_addr, const uint8_t *incomingData, int len) 
     Serial.printf("---------------------------------\n");
     Serial.println();
     belle_show(belleBoard.text); 
+  }
+  if(compareMac(mac_addr,chunAddress)){
+    memcpy(&chunData, incomingData, sizeof(chunData));
+    Serial.printf("--------From chun : ประตู---------\n");
+    chunBoard.show_servo = chunData.show_servo;
+    printf("%d\n", chunBoard.show_servo);
+    Serial.printf("---------------------------------\n");
+    Serial.println();
+    chun_show(chunBoard.show_servo); 
   }
   
 }
