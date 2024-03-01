@@ -7,10 +7,8 @@ LiquidCrystal_I2C lcd_i2c(0x27, 16, 2);
 
 // Function to display messages on OLED for belle
 void belle_show(int state) {
-  if (state != 12){
-    lcd_i2c.clear();
-    lcd_i2c.setCursor(0, 0);
-  }
+  lcd_i2c.clear();
+  lcd_i2c.setCursor(0, 0);
 
   if (state == 1) {
     lcd_i2c.setCursor(4, 0);
@@ -55,7 +53,7 @@ void belle_show(int state) {
     lcd_i2c.setCursor(0, 0);
     lcd_i2c.print("Please try again");
   } else if (state == 12) {
-    lcd_i2c.setCursor(0, 1);
+    lcd_i2c.setCursor(0, 0);
     lcd_i2c.print("Enter Password");
   }
 }
